@@ -1,0 +1,8 @@
+.dataTableHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.highlight {
+  background-color: yellow;
+}
