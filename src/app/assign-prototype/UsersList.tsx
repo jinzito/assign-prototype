@@ -47,25 +47,23 @@ const UsersList = () => {
   }, [selectedClients, clients])
 
   return (
-    <div>
-      <DataTable
-        scrollable
-        scrollHeight="80vh"
-        ref={dt}
-        header={header}
-        globalFilter={globalFilter}
-        value={data}
-        selection={selectedClients}
-        onSelectionChange={e => setSelectedClients(e.value)}
-        stripedRows
-        dataKey="id"
-        frozenValue={selectedClients}
-      >
-        <Column selectionMode="multiple" headerStyle={{width: '3em'}}/>
-        <Column field="id" header="id" sortable body={renderer}/>
-        <Column field="name" header="Name" sortable body={renderer}/>
-      </DataTable>
-    </div>
+    <DataTable
+      scrollable
+      ref={dt}
+      header={header}
+      globalFilter={globalFilter}
+      value={data}
+      selection={selectedClients}
+      onSelectionChange={e => setSelectedClients(e.value)}
+      stripedRows
+      dataKey="id"
+      frozenValue={selectedClients}
+      emptyMessage={(frozen) => frozen ? "No User Selected" : "No clients found"}
+    >
+      <Column selectionMode="multiple" headerStyle={{width: '3em'}}/>
+      <Column field="id" header="id" sortable body={renderer}/>
+      <Column field="name" header="Name" sortable body={renderer}/>
+    </DataTable>
   );
 }
 
