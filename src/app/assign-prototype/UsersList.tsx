@@ -2,16 +2,20 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {DataTable} from 'primereact/datatable';
 import {Column, ColumnProps} from 'primereact/column';
 import ProductService from '../service/ProductService';
-import {InputText} from "primereact/inputtext";
 import styles from './UsersList.module.css'
 import HighLightedSpan from "./HighLightedSpan";
 import some from "lodash/some"
+import {SearchInput} from "./SearchInput";
 
-const UsersList = () => {
+export interface UsersListProps {
+  selectedClients: never[],
+  setSelectedClients: (clients: []) => void,
+
+}
+
+const UsersList: React.FC<UsersListProps> = ({selectedClients, setSelectedClients}) => {
   const [clients, setClients] = useState([]);
   const productService = new ProductService();
-
-  const [selectedClients, setSelectedClients] = useState([]);
 
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -22,16 +26,12 @@ const UsersList = () => {
   const dt = useRef<DataTable>(null);
 
   const header = (
-    <div className={styles.dataTableHeader}>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search"/>
-        <InputText
-          type="search"
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Global Search"
-        />
-      </span>
+    <div style={{display: "flex", justifyContent: "space-between"}}>
+      <SearchInput
+        search={globalFilter}
+        setSearch={setGlobalFilter}
+        label="User search"
+      />
     </div>
   );
 
@@ -49,6 +49,7 @@ const UsersList = () => {
   return (
     <DataTable
       scrollable
+      scrollHeight="70vh"
       ref={dt}
       header={header}
       globalFilter={globalFilter}

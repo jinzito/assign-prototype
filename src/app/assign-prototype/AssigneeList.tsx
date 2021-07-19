@@ -3,18 +3,27 @@ import {Toast} from 'primereact/toast';
 import {NodeService} from '../service/NodeService';
 import {TreeTable, TreeTableEventParams, TreeTableSelectionKeys} from "primereact/treetable";
 import {Column} from "primereact/column";
+import {SearchInput} from "./SearchInput";
+import {InputSwitch} from "primereact/inputswitch";
+import {AssigneeListProps} from "./AssignPrototypePage";
 
 
-const AssigneeList = () => {
+const AssigneeList: React.FC<AssigneeListProps> = (
+  {
+    isDataTree,
+    setIsDataTree,
+    setHasSelection
+  }
+) => {
   const [nodes, setNodes] = useState([]);
-  // const [selectedKeys3, setSelectedKeys3] = useState<TreeSelectionKeys>(null);
-
+  const [globalFilter, setGlobalFilter] = useState("");
   const [selectedNodeKeys3, setSelectedNodeKeys3] = useState<TreeTableSelectionKeys>(null);
   const toast = useRef<Toast>(null);
   const nodeService = new NodeService();
 
   useEffect(() => {
-    nodeService.getTreeTableNodes().then(data => setNodes(data));
+    setHasSelection(false);
+    nodeService.getTreeNodes().then(data => setNodes(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onNodeSelect = (event: TreeTableEventParams) => {
@@ -25,30 +34,38 @@ const AssigneeList = () => {
     toast.current?.show({severity: 'success', summary: 'Node Unselected', detail: event?.node?.label, life: 3000});
   }
 
+  const header = (
+    <div style={{display: "flex", justifyContent: "space-between"}}>
+      <InputSwitch checked={isDataTree} onChange={() => setIsDataTree(!isDataTree)}/>
+      <SearchInput
+        search={globalFilter}
+        setSearch={setGlobalFilter}
+        label="Search"
+      />
+    </div>
+  );
+
+  const onSelectionChange = (e: any) => {
+    setSelectedNodeKeys3(e.value);
+    setHasSelection(!!e.value)
+  }
+
   return (
     <>
       <Toast ref={toast}/>
       <div className="card">
-        {/*<Tree*/}
-        {/*  className={styles.container}*/}
-        {/*  value={nodes}*/}
-        {/*  selectionMode="checkbox"*/}
-        {/*  selectionKeys={selectedKeys3}*/}
-        {/*  onSelectionChange={e => setSelectedKeys3(e.value)}*/}
-        {/*  onSelect={onNodeSelect}*/}
-        {/*  onUnselect={onNodeUnselect}*/}
-        {/*/>*/}
         <TreeTable
+          header={header}
           value={nodes}
           selectionMode="checkbox"
           selectionKeys={selectedNodeKeys3}
-          onSelectionChange={e => setSelectedNodeKeys3(e.value)}
+          onSelectionChange={onSelectionChange}
           onSelect={onNodeSelect}
           onUnselect={onNodeUnselect}
+          resizableColumns columnResizeMode="fit"
         >
-          <Column field="name" header="Name" expander/>
-          <Column field="size" header="Size"/>
-          <Column field="type" header="Type"/>
+          <Column field="name" header="Name" expander sortable style={{width:'60%'}}/>
+          <Column field="type" header="Type" sortable style={{width:'40%'}}/>
         </TreeTable>
       </div>
     </>

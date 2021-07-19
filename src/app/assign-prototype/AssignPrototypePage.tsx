@@ -2,36 +2,64 @@ import React, {useState} from 'react';
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import UsersList from "./UsersList";
 import {Fieldset} from "primereact/fieldset";
-import AssignItem, {AssignItemProps} from "./AssignItem";
+import AssignItem from "./AssignItem";
 import map from "lodash/map"
+import isEmpty from "lodash/isEmpty"
 import CenteredTree from "./CenteredTree";
 import AssigneeList2 from "./AssigneeList2";
+import AssigneeList from "./AssigneeList";
+
+export interface AssigneeListProps {
+  isDataTree: boolean
+  setIsDataTree: (value: boolean) => void
+  setHasSelection: (value: boolean) => void
+}
+
+const existedItems = [
+  {
+    userName: "Donald Crabtree", userId: "51338-85845", assignments: [
+      {type: "Engagement", id: "101", name: "Super 100"},
+      {type: "Project", id: "101", name: " Some project namr"},
+    ]
+  },
+  {
+    userName: "Carl McKay", userId: "00818-11481", assignments: [
+      {type: "User", id: "101", name: "Cris Dove 42343-23421"},
+      {type: "Engagement", id: "101", name: "Pepsi UE"},
+    ]
+  }
+];
 
 const AssignPrototypePage: React.FC = () => {
   useState()
-  const [existedGroup, setExistedGroup] = useState(false);
-  const [existedItems, setExistedItems] = useState<AssignItemProps[]>([
-    {
-      userName: "Donald Crabtree", userId: "51338-85845", assignments: [
-        {type: "Engagement", id: "101", name: "Engagement Super 100"},
-        {type: "Engagement", id: "101", name: "Engagement 101"},
-      ]
-    },
-    {
-      userName: "Carl McKay", userId: "00818-11481", assignments: [
-        {type: "Engagement", id: "101", name: "Engagement Super 100"},
-        {type: "Engagement", id: "101", name: "Engagement 101"},
-      ]
-    }
-  ]);
-  const [newGroup, setNewGroup] = useState(false);
+  const [selectedClients, setSelectedClients] = useState([]);
+  const [selectedAssignee, setSelectedAssignee] = useState(false);
+
+  const [isDataTree, setIsDataTree] = useState(true)
+
+  const [existedGroup, setExistedGroup] = useState(true);
+  const [newGroup, setNewGroup] = useState(true);
+
 
   return (
     <Splitter>
-      <SplitterPanel style={{height: "70vh"}} size={25} minSize={10}>
-        <UsersList/>
+      <SplitterPanel style={{height: "80vh"}} size={25} minSize={10}>
+        <UsersList
+          selectedClients={selectedClients}
+          setSelectedClients={(c) => setSelectedClients(c)}
+        />
       </SplitterPanel>
-      <SplitterPanel style={{height: "70vh"}} size={40} minSize={20}>
+      <SplitterPanel size={40} minSize={20}>
+        {selectedAssignee && !isEmpty(selectedClients) &&
+        <Fieldset
+          legend="New assignment"
+          toggleable
+          collapsed={newGroup}
+          onToggle={() => setNewGroup(!newGroup)}
+        >
+          <CenteredTree/>
+        </Fieldset>}
+        {!isEmpty(selectedClients) &&
         <Fieldset
           legend="Existed assignment"
           toggleable
@@ -45,18 +73,13 @@ const AssignPrototypePage: React.FC = () => {
               assignments={item?.assignments}
             />
           )}
-        </Fieldset>
-        <Fieldset
-          legend="New assignment"
-          toggleable
-          collapsed={newGroup}
-          onToggle={() => setNewGroup(!newGroup)}
-        >
-          <CenteredTree/>
-        </Fieldset>
+        </Fieldset>}
+
       </SplitterPanel>
-      <SplitterPanel style={{height: "70vh"}} size={35} minSize={10}>
-        <AssigneeList2/>
+      <SplitterPanel size={35} minSize={10}>
+        {isDataTree ?
+          <AssigneeList2 isDataTree={isDataTree} setIsDataTree={setIsDataTree} setHasSelection={setSelectedAssignee}/> :
+          <AssigneeList isDataTree={isDataTree} setIsDataTree={setIsDataTree} setHasSelection={setSelectedAssignee}/>}
       </SplitterPanel>
     </Splitter>
   )

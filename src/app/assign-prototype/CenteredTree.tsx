@@ -49,7 +49,7 @@ const debugData = [
 
 const containerStyles = {
   width: "100%",
-  height: "100vh"
+  height: "20rem"
 };
 
 const svgSquare = {
