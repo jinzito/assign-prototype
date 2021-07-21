@@ -115,10 +115,7 @@ const AssignPrototypePage3: React.FC = () => {
       )}
     </div>;
 
-  const roleLegend = () => isEmpty(selectedUsers) ? "Select Roles" :
-    <div>
-      CEM Admin, ETL User
-    </div>;
+  const roleLegend = () => isEmpty(selectedRolesKeys) ? "Select Roles" : "CEM Admin, ETL User";
 
   const orgChartData: OrganizationChartNodeData[] = isEmpty(selectedUsers) ? [{expanded: false}] :
     isEmpty(selectedRolesKeys) ? data1 :
@@ -133,7 +130,7 @@ const AssignPrototypePage3: React.FC = () => {
             setSelectedClients={(c) => setSelectedUsers(c)}
           />
         </Fieldset>
-        <Fieldset legend={roleLegend} toggleable collapsed={true}>
+        <Fieldset legend={roleLegend()} toggleable collapsed={true}>
           <RolesTree
             roles={roles}
             selectedRolesKeys={selectedRolesKeys}
