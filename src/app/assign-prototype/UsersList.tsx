@@ -14,6 +14,7 @@ export interface UsersListProps {
 }
 
 const UsersList: React.FC<UsersListProps> = ({selectedClients, setSelectedClients}) => {
+
   const [clients, setClients] = useState([]);
   const productService = new ProductService();
 
@@ -49,7 +50,7 @@ const UsersList: React.FC<UsersListProps> = ({selectedClients, setSelectedClient
   return (
     <DataTable
       scrollable
-      scrollHeight="70vh"
+      scrollHeight="50vh"
       ref={dt}
       header={header}
       globalFilter={globalFilter}

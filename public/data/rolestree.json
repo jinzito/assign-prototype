@@ -1,0 +1,62 @@
+{
+  "root": [
+    {
+      "key": "0",
+      "label": "CEM",
+      "data": {
+        "name": "CEM",
+        "type": "Upstream"
+      },
+      "icon": "pi pi-star",
+      "children": [
+        {
+          "key": "0-0",
+          "label": "CEM User",
+          "data": {
+            "name": "CEM User",
+            "type": "Role"
+          },
+          "icon": "pi pi-fw pi-client"
+        },
+        {
+          "key": "0-1",
+          "label": "CEM Admin",
+          "data": {
+            "name":"CEM Admin",
+            "type": "Role"
+          },
+          "icon": "pi pi-fw pi-star"
+        }
+      ]
+    },
+    {
+      "key": "1",
+      "label": "ETL",
+      "data": {
+        "name": "ETL",
+        "type": "Upstream"
+      },
+      "icon": "pi pi-star",
+      "children": [
+        {
+          "key": "1-0",
+          "label": "ELT User",
+          "data": {
+            "name": "ELT User",
+            "type": "Role"
+          },
+          "icon": "pi pi-fw pi-client"
+        },
+        {
+          "key": "0-1",
+          "label": "ETL Admin",
+          "data": {
+            "name":"ETL Admin",
+            "type": "Role"
+          },
+          "icon": "pi pi-fw pi-star"
+        }
+      ]
+    }
+  ]
+}
