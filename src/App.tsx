@@ -10,6 +10,7 @@ import {Toolbar} from "primereact/toolbar";
 import AssignPrototypePage from "./app/assign-prototype/AssignPrototypePage";
 import AssignPrototypePage2 from "./app/assign-prototype/AssignPrototypePage2";
 import AssignPrototypePage3 from "./app/assign-prototype/AssignPrototypePage3";
+import AssignPrototypePage4 from "./app/assign-prototype/AssignPrototypePage4";
 
 const items = [
   {label: 'CEM'},
@@ -33,6 +34,7 @@ function App() {
             <NavLink className="p-1" to={"/1"}> Demo 1 </NavLink>
             <NavLink className="p-1" to={"/2"}> Demo 2 </NavLink>
             <NavLink className="p-1" to={"/3"}> Demo 3 </NavLink>
+            <NavLink className="p-1" to={"/4"}> Demo 4 </NavLink>
           </div>
         </Route>
         <Route path="/1" exact={true}>
@@ -43,6 +45,9 @@ function App() {
         </Route>
         <Route path="/3" exact={true}>
           <AssignPrototypePage3/>
+        </Route>
+        <Route path="/4" exact={true}>
+          <AssignPrototypePage4/>
         </Route>
 
       </Switch>

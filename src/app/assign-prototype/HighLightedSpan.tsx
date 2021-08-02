@@ -18,7 +18,6 @@ export const highlightText = (textToHighlight: string, highlight: string, highli
   }
   return textToHighlight.toLowerCase().replace(highlight.toLowerCase(), `<span class="${highlightClassName}">${highlight}</span>`)
 }
-
 const HighLightedSpan: React.FunctionComponent<InnerHTMLProps> =
   (
     {

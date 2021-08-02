@@ -23,7 +23,7 @@ const data1 = [{
   type: 'person',
   className: 'p-person',
   expanded: false,
-  data: {name: 'Donald Crabtree'},
+  data: {name: 'Donald Crabtree  / Carl McKay'},
 }];
 
 const data2 = [{

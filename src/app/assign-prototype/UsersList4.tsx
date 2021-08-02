@@ -27,20 +27,27 @@ const UsersList: React.FC<UsersListProps> = ({selectedClients, setSelectedClient
 
   const dt = useRef<DataTable>(null);
 
-  const citySelectItems = [
-    {label: 'User', value: 'NY'},
-    {label: 'Engagement', value: 'RM'},
-    {label: 'Project', value: 'LDN'},
-    {label: 'Legal Entity', value: 'IST'}
-  ];
+  const [selectedUser, setSelectedUser] = useState<any>(null);
 
   const header = (
     <div style={{display: "flex", justifyContent: "space-between"}}>
-      <Dropdown  options={citySelectItems} placeholder="Select an Entity"/>
+
       <SearchInput
         search={globalFilter}
         setSearch={setGlobalFilter}
         label="User search"
+      />
+      <div style={{width: "1rem"}}/>
+      <Dropdown
+        value={selectedUser}
+        options={clients}
+        onChange={(e: { value: any }) => {
+          setSelectedUser(e.value);
+        }}
+
+        optionLabel="name"
+        filter showClear filterBy="name"
+        placeholder="Select a Client"
       />
     </div>
   );
@@ -59,11 +66,11 @@ const UsersList: React.FC<UsersListProps> = ({selectedClients, setSelectedClient
   return (
     <DataTable
       scrollable
-      scrollHeight="50vh"
+      scrollHeight="60vh"
       ref={dt}
       header={header}
       globalFilter={globalFilter}
-      value={data}
+      value={selectedUser && data}
       selection={selectedClients}
       onSelectionChange={e => setSelectedClients(e.value)}
       stripedRows
