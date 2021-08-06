@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Column} from "primereact/column";
 import {SearchInput} from "./SearchInput";
 import {DataTable} from "primereact/datatable";
 import {Dropdown} from "primereact/dropdown";
-import {NodeService} from "../service/NodeService";
 
 const businessEntitiesItems = [
   {label: 'Client', value: 'Client'},
@@ -11,19 +10,103 @@ const businessEntitiesItems = [
   {label: 'Project', value: 'Project'},
 ];
 
+const clientsList = [
+  {
+    "name": "Pepsi Co - 51338-85845",
+    "type": "Client"
+  },
+  {
+    "name": "Microsoft 00818-11481",
+    "type": "Client"
+  },
+  {
+    "name": "GM - 51228-11225",
+    "type": "Client"
+  }
+
+]
+
+const engagementsList = [
+  {
+    "name": "Super Name 1",
+    "type": "Engagement"
+  },
+  {
+    "name": "Pepsi Poland",
+    "type": "Engagement"
+  }, {
+    "name": "X-BOX",
+    "type": "Engagement"
+  },
+  {
+    "name": "Office",
+    "type": "Engagement"
+  },
+  {
+    "name": "Azure",
+    "type": "Engagement"
+  },
+  {
+    "name": "GM A 2019",
+    "type": "Engagement"
+  },
+  {
+    "name": "GM RND India 2020",
+    "type": "Engagement"
+  }
+
+
+];
+
+const projectsList = [
+  {
+    "name": "Project1",
+    "type": "Project"
+  },
+  {
+    "name": "Project2",
+    "type": "Project"
+  },
+  {
+    "name": "Invoices.txt",
+    "type": "Project"
+  },
+  {
+    "name": "Project1",
+    "type": "Project"
+  },
+  {
+    "name": "Project2",
+    "type": "Project"
+  },
+  {
+    "name": "Project1",
+    "type": "Project"
+  },
+  {
+    "name": "Project2",
+    "type": "Project"
+  },
+  {
+    "name": "Project1",
+    "type": "Project"
+  },
+  {
+    "name": "Project2",
+    "type": "Project"
+  }
+];
+
 const AssigneeList4: React.FC = () => {
+
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const [selectedObjects, setSelectedObjects] = useState([]);
 
-  const [nodes, setNodes] = useState([]);
+  console.log(">", selectedObjects);
 
-  useEffect(() => {
-    new NodeService().getTreeNodes().then(
-      data => {
-        setNodes(data)
-      }
-    );
-  }, [selectedType]); // eslint-disable-line react-hooks/exhaustive-deps
+  const data = selectedType === "Client" ? clientsList
+    : selectedType === "Engagement" ? engagementsList : selectedType === "Project" ? projectsList : [];
 
   const header = (
     <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -32,7 +115,7 @@ const AssigneeList4: React.FC = () => {
         setSearch={setGlobalFilter}
         label="Search"
       />
-      <div style={{width : "1rem"}}/>
+      <div style={{width: "1rem"}}/>
       <Dropdown
         options={businessEntitiesItems}
         placeholder="Select an Entity"
@@ -41,21 +124,21 @@ const AssigneeList4: React.FC = () => {
     </div>
   );
 
-  // const onSelectionChange = (e: any) => {
-  //   setSelectedAssignees(e.value);
-  // }
-
   return (
     <div className="card" style={{minHeight: "50vh"}}>
       <DataTable
         header={header}
         selectionMode="checkbox"
+        selection={selectedObjects}
         // selectionKeys={selectedAssignees}
         // onSelectionChange={onSelectionChange}
+        onSelectionChange={e => setSelectedObjects(e.value)}
         resizableColumns columnResizeMode="fit"
+        value={data}
+        frozenValue={selectedObjects}
       >
-        <Column field="name" header="Name" expander sortable style={{width: '60%'}}/>
-        <Column field="type" header="Type" sortable style={{width: '40%'}}/>
+        <Column selectionMode="multiple" headerStyle={{width: '3em'}}/>
+        <Column field="name" header="Name" sortable style={{width: '60%'}}/>
       </DataTable>
     </div>
   )
